@@ -1,0 +1,30 @@
+{
+  "name": "id-lock-node-mqtt",
+  "version": "1.0.0",
+  "description": "express.js API provider for communication with ID lock 150 (node to mqtt broker)",
+  "main": "index.js",
+  "scripts": {
+    "server": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnkristijan/id-lock-node-mqtt.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "mqtt",
+    "id-lock-150"
+  ],
+  "author": "John K Hermann",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/johnkristijan/id-lock-node-mqtt/issues"
+  },
+  "homepage": "https://github.com/johnkristijan/id-lock-node-mqtt#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mqtt": "^4.3.7"
+  }
+}
