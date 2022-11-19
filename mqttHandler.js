@@ -41,9 +41,11 @@ class MqttHandler {
     }
 
     infoMessage(message) {
-        this.mqttClient.publish(`${TOPIC}/get`, message).then((x) => {
-            console.log('then:::')
-            console.log(x)
+        this.mqttClient.publish(`${TOPIC}/get`, message, {}, (a, b) => {
+            console.log('a')
+            console.log(a)
+            console.log('b')
+            console.log(b)
         })
     }
 
