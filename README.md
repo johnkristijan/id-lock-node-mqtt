@@ -28,3 +28,10 @@ Id lock 150 has 25 user slots, so user has to be 1-25, in this example it is 2. 
 ```
 curl http://localhost/set_pin/user/2/pin/6777
 ```
+
+Due to the nature of ID LOCK 150 pin confirmation, it is returning 200 OK HTTP response for both successful and non-successful pin changes. Therefore, to confirm that the new PIN has been set, it is recommended to run a `get_pin` GET request for the same user_id after `set_pin` to verify that the pin change was successful.
+
+## get pin
+```
+curl http://localhost/set_pin/user/2
+```

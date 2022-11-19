@@ -17,9 +17,22 @@ app.get(`/set_pin/user/:user_id/pin/:pin_code`, (req, res) => {
     mqttClient.sendMessage(msg)
     res.send(msg)
 
-    setTimeout(() => {
-        mqttClient.disconnect()
-    }, 150000)
+    // setTimeout(() => {
+    //     mqttClient.disconnect()
+    // }, 150000)
+})
+
+app.get(`/get_pin/user/:user_id`, (req, res) => {
+    let mqttClient = new mqttHandler()
+    mqttClient.connect()
+    const userId = req.params.user_id
+    const msg = '{"pin_code":{"user":' + userId + '}}'
+    mqttClient.sendMessage(msg)
+    res.send(msg)
+
+    // setTimeout(() => {
+    //     mqttClient.disconnect()
+    // }, 150000)
 })
 
 app.listen(port, () => {
