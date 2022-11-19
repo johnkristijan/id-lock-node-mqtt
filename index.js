@@ -27,7 +27,7 @@ app.get(`/get_pin/user/:user_id`, (req, res) => {
     mqttClient.connect()
     const userId = req.params.user_id
     const msg = '{"pin_code":{"user":' + userId + '}}'
-    mqttClient.sendMessage(msg)
+    mqttClient.sendMessage(msg, 'get')
     res.send(msg)
 
     // setTimeout(() => {

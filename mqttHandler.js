@@ -36,8 +36,8 @@ class MqttHandler {
     }
 
     // Sends a mqtt message to topic: mytopic
-    sendMessage(message) {
-        this.mqttClient.publish(`${TOPIC}/set`, message)
+    sendMessage(message, mode='set') {
+        this.mqttClient.publish(`${TOPIC}/${mode}`, message)
     }
 
     disconnect() {
