@@ -36,8 +36,10 @@ app.get(`/get_pin/user/:user_id`, async (req, res) => {
     mqttClient.infoMessage(msg)
     await sleep(5000)
     const lastMessage = await mqttClient.getLastMessage()
-    console.log('lastMessage :>> ', lastMessage)
-    res.send(msg)
+    const jsonified = JSON.parse(lastMessage)
+    const users = jsonified.users
+    const user = users[userId]
+    res.send(user.pin_code)
 
     // setTimeout(() => {
     //     mqttClient.disconnect()
