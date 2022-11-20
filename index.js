@@ -29,21 +29,34 @@ app.get(`/set_pin/user/:user_id/pin/:pin_code`, (req, res) => {
 })
 
 app.get(`/get_pin/user/:user_id`, async (req, res) => {
-    let mqttClient = new mqttHandler()
-    mqttClient.connect()
-    const userId = req.params.user_id
-    const msg = '{"pin_code":{"user":' + userId + '}}'
-    mqttClient.infoMessage(msg)
-    await sleep(5000)
-    const lastMessage = await mqttClient.getLastMessage()
-    const jsonified = JSON.parse(lastMessage)
-    const users = jsonified.users
-    const user = users[userId]
-    res.send(user.pin_code)
+    try {
+        let mqttClient = new mqttHandler()
+        mqttClient.connect()
+        const userId = req.params.user_id
+        const msg = '{"pin_code":{"user":' + userId + '}}'
+        mqttClient.infoMessage(msg)
+        await sleep(5000)
+        const lastMessage = await mqttClient.getLastMessage()
+        const jsonified = JSON.parse(lastMessage)
+        const users = jsonified.users
+        const user = users[userId]
+        res.send(user.pin_code)
+    } catch (err) {
+        res.send('No PIN for this user')
+    }
+})
 
-    // setTimeout(() => {
-    //     mqttClient.disconnect()
-    // }, 150000)
+app.get(`/battery_status`, async (req, res) => {
+    try {
+        let mqttClient = new mqttHandler()
+        mqttClient.connect()
+        const lastMessage = await mqttClient.getLastMessage()
+        const jsonified = JSON.parse(lastMessage)
+        const battery = jsonified.battery
+        res.send(battery)
+    } catch (err) {
+        res.send('Unable to get battery status')
+    }
 })
 
 app.listen(port, () => {
