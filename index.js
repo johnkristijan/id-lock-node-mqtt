@@ -53,7 +53,7 @@ app.get(`/battery_status`, async (req, res) => {
         const lastMessage = await mqttClient.getLastMessage()
         const jsonified = JSON.parse(lastMessage)
         const battery = jsonified.battery
-        res.send(battery)
+        res.send(`${battery}%`)
     } catch (err) {
         res.send('Unable to get battery status')
     }
