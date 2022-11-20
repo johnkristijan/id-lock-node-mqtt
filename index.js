@@ -22,12 +22,13 @@ app.get(`/set_pin/user/:user_id/pin/:pin_code`, (req, res) => {
     // }, 150000)
 })
 
-app.get(`/get_pin/user/:user_id`, (req, res) => {
+app.get(`/get_pin/user/:user_id`, async (req, res) => {
     let mqttClient = new mqttHandler()
     mqttClient.connect()
     const userId = req.params.user_id
     const msg = '{"pin_code":{"user":' + userId + '}}'
-    mqttClient.infoMessage(msg)
+    const feedback = await mqttClient.infoMessage(msg)
+    console.log('feedback :>> ', feedback);
     res.send(msg)
 
     // setTimeout(() => {

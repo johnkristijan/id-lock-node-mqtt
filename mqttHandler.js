@@ -2,6 +2,8 @@ const mqtt = require('mqtt')
 
 const TOPIC = process.env.TOPIC
 
+const MESSAGES = []
+
 class MqttHandler {
     constructor() {
         this.mqttClient = null
@@ -27,7 +29,9 @@ class MqttHandler {
 
         // When a message arrives, console.log it
         this.mqttClient.on('message', function (topic, message) {
-            console.log(message.toString())
+            const msg = message.toString()
+            console.log(msg)
+            MESSAGES.push(msg)
         })
 
         this.mqttClient.on('close', () => {
@@ -40,13 +44,11 @@ class MqttHandler {
         this.mqttClient.publish(`${TOPIC}/set`, message)
     }
 
-    infoMessage(message) {
-        this.mqttClient.publish(`${TOPIC}/get`, message, {}, (a, b) => {
-            console.log('a')
-            console.log(a)
-            console.log('b')
-            console.log(b)
-        })
+    async infoMessage(message) {
+        this.mqttClient.publish(`${TOPIC}/get`, message)
+        setTimeout(() => {
+            return MESSAGES[MESSAGES.length - 1]
+        }, 5000);
     }
 
     disconnect() {
