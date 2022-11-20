@@ -4,6 +4,12 @@ const mqttHandler = require('./mqttHandler.js')
 const app = express()
 const port = process.env.NODE_PORT
 
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms)
+    })
+}
+
 app.get('/', (req, res) => {
     res.send('Server running.')
 })
@@ -27,8 +33,10 @@ app.get(`/get_pin/user/:user_id`, async (req, res) => {
     mqttClient.connect()
     const userId = req.params.user_id
     const msg = '{"pin_code":{"user":' + userId + '}}'
-    const feedback = await mqttClient.infoMessage(msg)
-    console.log('feedback :>> ', feedback);
+    mqttClient.infoMessage(msg)
+    await sleep(5000)
+    const lastMessage = await mqttClient.getLastMessage()
+    console.log('lastMessage :>> ', lastMessage)
     res.send(msg)
 
     // setTimeout(() => {

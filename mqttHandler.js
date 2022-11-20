@@ -39,16 +39,16 @@ class MqttHandler {
         })
     }
 
-    // Sends a mqtt message to topic: mytopic
     sendMessage(message) {
         this.mqttClient.publish(`${TOPIC}/set`, message)
     }
 
-    async infoMessage(message) {
+    infoMessage(message) {
         this.mqttClient.publish(`${TOPIC}/get`, message)
-        setTimeout(() => {
-            return MESSAGES[MESSAGES.length - 1]
-        }, 5000);
+    }
+
+    getLastMessage() {
+        return MESSAGES[MESSAGES.length - 1]
     }
 
     disconnect() {
