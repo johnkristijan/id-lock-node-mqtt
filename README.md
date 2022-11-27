@@ -35,3 +35,25 @@ Due to the nature of ID LOCK 150 pin confirmation, it is returning 200 OK HTTP r
 ```
 curl http://localhost/set_pin/user/2
 ```
+
+
+## screen setup example
+### start mosquitto mqtt broker
+cd
+screen -dRR mosquitto
+./start_mosquitto.sh
+C-a + d to detach screen
+
+### start zigbee2mqtt service
+screen -dRR zigbee2mqtt
+./start_zigbee2mqtt.sh
+C-a + d to detach screen
+
+### start http2mqtt webapp service
+screen -dRR webapp
+cd id-lock-node-mqtt
+sudo node index.js
+C-a + d to detach screen
+
+### then server is running and you can
+curl 192.168.86.23 # the ip of raspberry

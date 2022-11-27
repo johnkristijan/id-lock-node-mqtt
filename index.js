@@ -22,22 +22,18 @@ app.get(`/set_pin/user/:user_id/pin/:pin_code`, (req, res) => {
     const msg = '{"pin_code":{"user":' + userId + ',"pin_code":' + pinCode + ',"expose_pin":true}}'
     mqttClient.sendMessage(msg)
     res.send(msg)
-
-    // setTimeout(() => {
-    //     mqttClient.disconnect()
-    // }, 150000)
 })
 
 app.get(`/get_pin/user/:user_id`, async (req, res) => {
     try {
+        await sleep(7500)
         let mqttClient = new mqttHandler()
         mqttClient.connect()
         const userId = req.params.user_id
         const msg = '{"pin_code":{"user":' + userId + '}}'
         mqttClient.infoMessage(msg)
-        await sleep(5000)
-        const lastMessage = await mqttClient.getLastMessage()
-        const jsonified = JSON.parse(lastMessage)
+        const lastMessage = mqttClient.getLastMessage()
+        const jsonified = await JSON.parse(lastMessage)
         const users = jsonified.users
         const user = users[userId]
         res.send(user.pin_code)

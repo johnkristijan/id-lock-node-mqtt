@@ -2,7 +2,28 @@ const mqtt = require('mqtt')
 
 const TOPIC = process.env.TOPIC
 
-const MESSAGES = []
+const MESSAGES = [
+    {
+        battery: 60,
+        door_state: 'error_jammed',
+        idlock_lock_fw: '1.5.9',
+        linkquality: 167,
+        lock_mode: 'auto_on_away_off',
+        lock_state: 'unlocked',
+        master_pin_mode: true,
+        relock_enabled: true,
+        rfid_enable: true,
+        service_mode: 'deactivated',
+        sound_volume: 'high_volume',
+        state: 'UNLOCK',
+        users: {
+            1: { pin_code: '100009', status: 'enabled' },
+            2: { pin_code: '4455', status: 'enabled' },
+            3: { pin_code: '9999', status: 'available' },
+            4: { pin_code: '8888', status: 'available' },
+        },
+    },
+]
 
 class MqttHandler {
     constructor() {
