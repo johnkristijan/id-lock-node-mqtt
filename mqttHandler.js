@@ -17,10 +17,7 @@ const MESSAGES = [
         sound_volume: 'high_volume',
         state: 'UNLOCK',
         users: {
-            1: { pin_code: '100009', status: 'enabled' },
-            2: { pin_code: '4455', status: 'enabled' },
-            3: { pin_code: '9999', status: 'available' },
-            4: { pin_code: '8888', status: 'available' },
+            1: { pin_code: '100000', status: 'enabled' },
         },
     },
 ]
@@ -73,7 +70,6 @@ class MqttHandler {
     }
 
     disconnect() {
-        console.info('attempting to disconnect the mqtt client')
         this.mqttClient.end()
     }
 }
