@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('log-timestamp')
 const express = require('express')
 const mqttHandler = require('./mqttHandler.js')
 const app = express()
@@ -43,7 +44,7 @@ app.get('/set/:user/:pin', async (req, res) => {
         body = mqtt.getLastMessage()
         curr_pin = await getPinFromJSONbyUser(body, USER)
         console.info(`[pin change verification attempt ${x} / ${ATTEMPTS}] lock pin is: ${curr_pin} | should be: ${NEW_PIN}`)
-        
+
         // after some tests it turns out it takes approx. 10 seconds to verify a PIN change
         if (curr_pin == NEW_PIN) {
             console.info(`[pin change request success] pin set to ${NEW_PIN} for user ID ${USER}`)
