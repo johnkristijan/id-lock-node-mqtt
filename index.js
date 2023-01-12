@@ -27,6 +27,19 @@ app.get('/', (req, res) => {
     res.send('Server running.')
 })
 
+app.get('/get/:lock/:user', async (req, res) => {
+    const USER = req.params.user
+    console.info(`[show pin request] show pin for user ID ${USER}`)
+    const mqtt = new mqttHandler()
+    mqtt.connect()
+    const TOPIC = 'zigbee2mqtt/' + req.params.lock
+    mqtt.infoMessage(TOPIC, `{"pin_code":{"user":${USER}}}`)
+    await sleep(5000)
+    res.status(200).send('PIN request')
+    mqtt.disconnect()
+    return
+})
+
 app.get('/set/:lock/:user/:pin', async (req, res) => {
     const USER = req.params.user
     const NEW_PIN = req.params.pin
