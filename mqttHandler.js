@@ -1,7 +1,5 @@
 const mqtt = require('mqtt')
 
-const TOPIC = process.env.TOPIC
-
 const MESSAGES = [
     {
         battery: 60,
@@ -43,11 +41,12 @@ class MqttHandler {
         })
 
         // mqtt subscriptions
-        this.mqttClient.subscribe(TOPIC, { qos: 0 })
+        this.mqttClient.subscribe(['zigbee2mqtt/ID_LOCK_0', 'zigbee2mqtt/ID_LOCK_1', 'zigbee2mqtt/ID_LOCK_2'], { qos: 0 })
 
         // When a message arrives, console.log it
         this.mqttClient.on('message', function (topic, message) {
             const msg = message.toString()
+            console.log(`>> topic: ${topic} <<`)
             console.log(msg)
             MESSAGES.push(msg)
         })
@@ -57,12 +56,12 @@ class MqttHandler {
         })
     }
 
-    sendMessage(message) {
-        this.mqttClient.publish(`${TOPIC}/set`, message)
+    sendMessage(topic, message) {
+        this.mqttClient.publish(`${topic}/set`, message)
     }
 
-    infoMessage(message) {
-        this.mqttClient.publish(`${TOPIC}/get`, message)
+    infoMessage(topic, message) {
+        this.mqttClient.publish(`${topic}/get`, message)
     }
 
     getLastMessage() {

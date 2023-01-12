@@ -27,13 +27,14 @@ app.get('/', (req, res) => {
     res.send('Server running.')
 })
 
-app.get('/set/:user/:pin', async (req, res) => {
+app.get('/set/:lock/:user/:pin', async (req, res) => {
     const USER = req.params.user
     const NEW_PIN = req.params.pin
     console.info(`[pin change request received] set pin to ${NEW_PIN} for user ID ${USER}`)
     const mqtt = new mqttHandler()
     mqtt.connect()
-    mqtt.sendMessage(`{"pin_code":{"user":${USER},"pin_code":${NEW_PIN},"expose_pin":true}}`)
+    const TOPIC = 'zigbee2mqtt/' + req.params.lock
+    mqtt.sendMessage(TOPIC, `{"pin_code":{"user":${USER},"pin_code":${NEW_PIN},"expose_pin":true}}`)
 
     // try to verify pin code every second for the next 30 seconds or else time out
     let body
